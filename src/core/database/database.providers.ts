@@ -1,29 +1,23 @@
+import { SEQUELIZE } from '../constants';
+import { User } from '../../modules/users/user.entity';
 import { Sequelize } from 'sequelize-typescript';
-import { DEVELOPMENT, PRODUCTION, SEQUELIZE, TEST } from '../constants';
-import { databaseConfig } from './database.config';
+import { ConfigService } from '@nestjs/config';
 
 export const databaseProviders = [
   {
     provide: SEQUELIZE,
-    useFactory: async () => {
-      let config;
-      switch (process.env.NODE_ENV) {
-        case DEVELOPMENT:
-          config = databaseConfig.development;
-          break;
-        case TEST:
-          config = databaseConfig.test;
-          break;
-        case PRODUCTION:
-          config = databaseConfig.production;
-          break;
-        default:
-          config = databaseConfig.development;
-          break;
-      }
+    inject: [ConfigService],
+    useFactory: async (configService: ConfigService) => {
+      const sequelize = new Sequelize({
+        username: configService.get<string>('DB_USER'),
+        password: configService.get<string>('DB_PASS'),
+        database: configService.get<string>('DB_NAME'),
+        host: configService.get<string>('DB_HOST'),
+        port: Number.parseInt(configService.get<string>('DB_PORT')),
+        dialect: 'postgres',
+      });
 
-      const sequelize = new Sequelize(config);
-      sequelize.addModels([]);
+      sequelize.addModels([User]);
       await sequelize.sync();
       return sequelize;
     },
