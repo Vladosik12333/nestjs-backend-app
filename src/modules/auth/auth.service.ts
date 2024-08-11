@@ -34,7 +34,7 @@ export class AuthService {
   async createUser(user: UserDto): Promise<UserResponseDto> {
     const matchUser = await this.usersService.findOneUserByEmail(user.email);
 
-    if (matchUser) throw new ConflictException(`EMAIL_ALREADY_EXISTS`);
+    if (matchUser) throw new ConflictException('EMAIL_ALREADY_EXISTS');
 
     const newUser = await this.usersService.createUser(user);
 
