@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../users/user.entity';
+import { User } from '../users/users.entity';
 import { UserResponseDto } from './dto/userResponse.dto';
 import { UserDto } from '../users/dto/user.dto';
 
@@ -15,6 +15,8 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<User> {
     const foundUser = await this.usersService.findOneUserByEmail(email);
+
+    console.log(foundUser);
 
     if (!foundUser) return null;
 

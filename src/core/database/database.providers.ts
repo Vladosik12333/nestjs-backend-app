@@ -1,7 +1,8 @@
-import { User } from '../../modules/users/user.entity';
+import { User } from '../../modules/users/users.entity';
 import { Sequelize } from 'sequelize-typescript';
 import { ConfigService } from '@nestjs/config';
 import { SEQUELIZE } from '../constants/providers';
+import { Post } from '../../modules/posts/posts.entity';
 
 export const databaseProviders = [
   {
@@ -17,7 +18,7 @@ export const databaseProviders = [
         dialect: 'postgres',
       });
 
-      sequelize.addModels([User]);
+      sequelize.addModels([User, Post]);
       await sequelize.sync();
       return sequelize;
     },
