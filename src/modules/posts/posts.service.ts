@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { PostDto } from './dto/post.dto';
+import { CreatePostDto } from './dto/createPost.dto';
 import { Post } from './posts.entity';
 import { POST_REPOSITORY } from '../../core/constants/providers';
 import { User } from '../users/users.entity';
@@ -8,19 +8,17 @@ import { User } from '../users/users.entity';
 export class PostsService {
   constructor(@Inject(POST_REPOSITORY) private postsRepository: typeof Post) {}
 
-  async createPost(userId: string, postBody: PostDto): Promise<Post> {
+  async createPost(userId: string, postBody: CreatePostDto): Promise<Post> {
     const post = { userId, ...postBody };
 
-    const newPost = await this.postsRepository.create(post, {
-      include: [{ model: User, attributes: { exclude: ['password'] } }],
-    });
+    const newPost = await this.postsRepository.create(post);
 
     return newPost;
   }
 
   async findAllPosts(): Promise<Array<Post>> {
     const posts = await this.postsRepository.findAll({
-      include: [{ model: User, attributes: { exclude: ['password'] } }],
+      include: User,
     });
 
     return posts;
@@ -28,7 +26,7 @@ export class PostsService {
 
   async findOnePost(postId: string): Promise<Post> {
     const post = await this.postsRepository.findByPk(postId, {
-      include: [{ model: User, attributes: { exclude: ['password'] } }],
+      include: User,
     });
 
     if (!post) throw new NotFoundException('POST_NOT_FOUND');
@@ -39,7 +37,7 @@ export class PostsService {
   async updateOnePost(
     postId: string,
     userId: string,
-    postBody: PostDto,
+    postBody: CreatePostDto,
   ): Promise<Post> {
     const post = await this.postsRepository.findOne({
       where: { id: postId, userId },

@@ -1,9 +1,14 @@
 import { Post } from './posts.entity';
-import { POST_REPOSITORY } from '../../core/constants/providers';
+import { POST_REPOSITORY, POSTS_MAPPER } from '../../core/constants/providers';
+import { PostsMapper } from './posts.mapper';
 
-export const PostsProviders = [
+export const postsProviders = [
   {
-    useValue: Post,
     provide: POST_REPOSITORY,
+    useValue: Post,
+  },
+  {
+    provide: POSTS_MAPPER,
+    useClass: PostsMapper,
   },
 ];

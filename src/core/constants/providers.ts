@@ -3,3 +3,9 @@ export const SEQUELIZE = 'SEQUELIZE';
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 
 export const POST_REPOSITORY = 'POST_REPOSITORY';
+
+export const USER_MAPPER = 'USER_MAPPER';
+
+export const AUTH_MAPPER = 'AUTH_MAPPER';
+
+export const POSTS_MAPPER = 'POSTS_MAPPER';

@@ -1,7 +1,11 @@
-import { IsString, MaxLength, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MaxLength, MinLength } from 'class-validator';
+import { UserDto } from '../../users/dto/user.dto';
 
 export class PostDto {
+  @ApiProperty()
+  id: string;
+
   @IsString()
   @MinLength(4)
   @MaxLength(20)
@@ -15,4 +19,10 @@ export class PostDto {
   @IsString()
   @ApiProperty({ description: 'The description of the post' })
   body: string;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiProperty()
+  updatedAt: Date;
 }

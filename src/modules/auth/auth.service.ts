@@ -3,8 +3,9 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/users.entity';
-import { UserResponseDto } from './dto/userResponse.dto';
-import { UserDto } from '../users/dto/user.dto';
+import { AuthDto } from './dto/auth.dto';
+import { CreateUserDto } from '../users/dto/createUser.dto';
+import { AuthInterface } from './interfaces/AuthInterface';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +17,6 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User> {
     const foundUser = await this.usersService.findOneUserByEmail(email);
 
-    console.log(foundUser);
-
     if (!foundUser) return null;
 
     const match = await this.comparePassword(password, foundUser.password);
@@ -27,13 +26,13 @@ export class AuthService {
     return foundUser;
   }
 
-  async signin(user: User): Promise<UserResponseDto> {
+  async signin(user: User): Promise<AuthInterface> {
     const token = await this.issueToken(user.id);
 
-    return { name: user.name, email: user.email, token };
+    return { user, token };
   }
 
-  async createUser(user: UserDto): Promise<UserResponseDto> {
+  async createUser(user: CreateUserDto): Promise<AuthInterface> {
     const matchUser = await this.usersService.findOneUserByEmail(user.email);
 
     if (matchUser) throw new ConflictException('EMAIL_ALREADY_EXISTS');
@@ -42,7 +41,7 @@ export class AuthService {
 
     const token = await this.issueToken(newUser.id);
 
-    return { name: newUser.name, email: newUser.email, token };
+    return { user: newUser, token };
   }
 
   private async comparePassword(
