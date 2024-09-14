@@ -12,7 +12,6 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('VB Blog Service')
-    .setDescription('The Blog Service description')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

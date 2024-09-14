@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from '../users/dto/createUser.dto';
-import { AuthDto } from './dto/auth.dto';
+import { AuthResponseDto } from './dto/auth.dto';
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -32,7 +32,7 @@ export class AuthController {
 
   @ApiCreatedResponse({
     description: 'The user successfully logged in.',
-    type: AuthDto,
+    type: AuthResponseDto,
   })
   @ApiUnauthorizedResponse({
     description: 'The email or password is incorrect.',
@@ -43,17 +43,17 @@ export class AuthController {
   @ApiBody({ type: AuthLoginRequestDto })
   @UseGuards(AuthGuard('local'))
   @Post('signin')
-  async signin(@Request() req): Promise<AuthDto> {
+  async signin(@Request() req): Promise<AuthResponseDto> {
     const response = await this.authService.signin(req.user);
 
-    const mappedResponse = this.authMapper.mapToAuthDto(response);
+    const mappedResponse = this.authMapper.mapToAuthResponseDto(response);
 
     return mappedResponse;
   }
 
   @ApiCreatedResponse({
     description: 'The user successfully signed up.',
-    type: AuthDto,
+    type: AuthResponseDto,
   })
   @ApiConflictResponse({
     description: 'The user email already exists. Try another one.',
@@ -62,10 +62,10 @@ export class AuthController {
     description: 'Fields are not validated',
   })
   @Post('signup')
-  async signup(@Body() user: CreateUserDto): Promise<AuthDto> {
+  async signup(@Body() user: CreateUserDto): Promise<AuthResponseDto> {
     const response = await this.authService.createUser(user);
 
-    const mappedResponse = this.authMapper.mapToAuthDto(response);
+    const mappedResponse = this.authMapper.mapToAuthResponseDto(response);
 
     return mappedResponse;
   }

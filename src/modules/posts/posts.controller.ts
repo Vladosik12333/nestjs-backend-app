@@ -44,7 +44,7 @@ export class PostsController {
     description: 'Fields are not validated',
   })
   @ApiUnauthorizedResponse({
-    description: 'The JWT token not validated',
+    description: 'The user is not authorized',
   })
   @UseGuards(AuthGuard('jwt'))
   @PostMethod()
@@ -94,7 +94,7 @@ export class PostsController {
     type: PostDto,
   })
   @ApiUnauthorizedResponse({
-    description: 'The JWT token not validated',
+    description: 'The user is not authorized',
   })
   @ApiBadRequestResponse({
     description: 'Fields are not validated',
@@ -126,7 +126,7 @@ export class PostsController {
     type: PostDto,
   })
   @ApiUnauthorizedResponse({
-    description: 'The JWT token not validated',
+    description: 'The user is not authorized',
   })
   @ApiBadRequestResponse({
     description: 'Fields are not validated',

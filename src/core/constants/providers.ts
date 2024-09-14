@@ -9,3 +9,7 @@ export const USER_MAPPER = 'USER_MAPPER';
 export const AUTH_MAPPER = 'AUTH_MAPPER';
 
 export const POSTS_MAPPER = 'POSTS_MAPPER';
+
+export const REACTION_REPOSITORY = 'REACTION_REPOSITORY';
+
+export const REACTION_MAPPER = 'REACTION_MAPPER';

@@ -3,6 +3,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { ConfigService } from '@nestjs/config';
 import { SEQUELIZE } from '../constants/providers';
 import { Post } from '../../modules/posts/posts.entity';
+import { Reaction } from '../../modules/reaction/reaction.entity';
 
 export const databaseProviders = [
   {
@@ -18,7 +19,7 @@ export const databaseProviders = [
         dialect: 'postgres',
       });
 
-      sequelize.addModels([User, Post]);
+      sequelize.addModels([User, Post, Reaction]);
       await sequelize.sync();
       return sequelize;
     },

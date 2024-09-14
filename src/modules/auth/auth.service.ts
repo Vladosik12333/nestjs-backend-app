@@ -3,7 +3,6 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/users.entity';
-import { AuthDto } from './dto/auth.dto';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { AuthInterface } from './interfaces/AuthInterface';
 

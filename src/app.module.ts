@@ -5,15 +5,16 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PostsModule } from './modules/posts/posts.module';
+import { ReactionModule } from './modules/reaction/reaction.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     ConfigModule.forRoot(),
     DatabaseModule,
     UsersModule,
     AuthModule,
     PostsModule,
+    ReactionModule,
   ],
   controllers: [AppController],
 })
