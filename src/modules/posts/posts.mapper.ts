@@ -3,7 +3,7 @@ import { USER_MAPPER } from '../../core/constants/providers';
 import { UserMapper } from '../users/users.mapper';
 import { Post } from './posts.entity';
 import { PostDto } from './dto/post.dto';
-import { PostWithUserDto } from './dto/postWithUser.dto';
+import { PostWithReactionsDto } from './dto/postWithReactions.dto';
 
 @Injectable()
 export class PostsMapper {
@@ -21,17 +21,18 @@ export class PostsMapper {
     return postDto;
   }
 
-  mapToPostWithUserDto(post: Post): PostWithUserDto {
-    const postDto = new PostWithUserDto();
+  mapToPostWithReactionsDto(post: Post): PostWithReactionsDto {
+    const postDto = new PostWithReactionsDto();
 
     postDto.id = post.id;
     postDto.title = post.title;
     postDto.body = post.body;
     postDto.createdAt = post.createdAt;
     postDto.updatedAt = post.updatedAt;
+    postDto.positiveReactions = Number(post.dataValues?.positiveReactions) ?? 0;
+    postDto.negativeReactions = Number(post.dataValues?.negativeReactions) ?? 0;
 
     const userDto = this.userMapper.mapToUserDto(post.user);
-
     postDto.user = userDto;
 
     return postDto;
@@ -43,8 +44,10 @@ export class PostsMapper {
     return mappedPosts;
   }
 
-  mapAllToPostWithUserDto(posts: Array<Post>): Array<PostWithUserDto> {
-    const mappedPosts = posts.map(this.mapToPostWithUserDto, this);
+  mapAllToPostWithReactionsDto(
+    posts: Array<Post>,
+  ): Array<PostWithReactionsDto> {
+    const mappedPosts = posts.map(this.mapToPostWithReactionsDto, this);
 
     return mappedPosts;
   }

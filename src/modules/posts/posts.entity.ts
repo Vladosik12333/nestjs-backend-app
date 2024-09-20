@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
 import { User } from '../users/users.entity';
+import { Reaction } from '../reaction/reaction.entity';
 
 @Table
 export class Post extends Model<Post> {
@@ -31,4 +33,11 @@ export class Post extends Model<Post> {
 
   @BelongsTo(() => User)
   user: User;
+
+  @HasMany(() => Reaction)
+  reactions: Reaction[];
+
+  positiveReactions?: number;
+
+  negativeReactions?: number;
 }

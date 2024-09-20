@@ -3,6 +3,8 @@ import { CreatePostDto } from './dto/createPost.dto';
 import { Post } from './posts.entity';
 import { POST_REPOSITORY } from '../../core/constants/providers';
 import { User } from '../users/users.entity';
+import { Reaction } from '../reaction/reaction.entity';
+import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class PostsService {
@@ -18,7 +20,44 @@ export class PostsService {
 
   async findAllPosts(): Promise<Array<Post>> {
     const posts = await this.postsRepository.findAll({
-      include: User,
+      include: [
+        { model: User, attributes: ['id', 'name', 'email'] },
+        {
+          model: Reaction,
+          attributes: [],
+        },
+      ],
+      attributes: [
+        'id',
+        'title',
+        'body',
+        [
+          Sequelize.fn(
+            'SUM',
+            Sequelize.literal(
+              `CASE WHEN "reactions"."reactionType" = true THEN 1 ELSE 0 END`,
+            ),
+          ),
+          'positiveReactions',
+        ],
+        [
+          Sequelize.fn(
+            'SUM',
+            Sequelize.literal(
+              `CASE WHEN "reactions"."reactionType" = false THEN 1 ELSE 0 END`,
+            ),
+          ),
+          'negativeReactions',
+        ],
+      ],
+      group: [
+        'Post.id',
+        'Post.title',
+        'Post.body',
+        'user.id',
+        'user.name',
+        'user.email',
+      ],
     });
 
     return posts;
@@ -26,7 +65,44 @@ export class PostsService {
 
   async findOnePost(postId: string): Promise<Post> {
     const post = await this.postsRepository.findByPk(postId, {
-      include: User,
+      include: [
+        { model: User, attributes: ['id', 'name', 'email'] },
+        {
+          model: Reaction,
+          attributes: [],
+        },
+      ],
+      attributes: [
+        'id',
+        'title',
+        'body',
+        [
+          Sequelize.fn(
+            'SUM',
+            Sequelize.literal(
+              `CASE WHEN "reactions"."reactionType" = true THEN 1 ELSE 0 END`,
+            ),
+          ),
+          'positiveReactions',
+        ],
+        [
+          Sequelize.fn(
+            'SUM',
+            Sequelize.literal(
+              `CASE WHEN "reactions"."reactionType" = false THEN 1 ELSE 0 END`,
+            ),
+          ),
+          'negativeReactions',
+        ],
+      ],
+      group: [
+        'Post.id',
+        'Post.title',
+        'Post.body',
+        'user.id',
+        'user.name',
+        'user.email',
+      ],
     });
 
     if (!post) throw new NotFoundException('POST_NOT_FOUND');

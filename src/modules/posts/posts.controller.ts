@@ -26,6 +26,7 @@ import { PostDto } from './dto/post.dto';
 import { POSTS_MAPPER } from '../../core/constants/providers';
 import { PostsMapper } from './posts.mapper';
 import { PostWithUserDto } from './dto/postWithUser.dto';
+import { PostWithReactionsDto } from './dto/postWithReactions.dto';
 
 @ApiTags('posts')
 @Controller('posts')
@@ -59,15 +60,15 @@ export class PostsController {
     return mappedPost;
   }
 
-  @ApiCreatedResponse({
+  @ApiOkResponse({
     description: 'All posts',
-    type: [PostWithUserDto],
+    type: [PostWithReactionsDto],
   })
   @Get()
-  async findAllPosts(): Promise<Array<PostWithUserDto>> {
+  async findAllPosts(): Promise<Array<PostWithReactionsDto>> {
     const posts = await this.postsService.findAllPosts();
 
-    const mappedPosts = this.postsMapper.mapAllToPostWithUserDto(posts);
+    const mappedPosts = this.postsMapper.mapAllToPostWithReactionsDto(posts);
 
     return mappedPosts;
   }
@@ -83,7 +84,7 @@ export class PostsController {
   async findOnePost(@Param('id') id: string): Promise<PostWithUserDto> {
     const post = await this.postsService.findOnePost(id);
 
-    const mappedPost = this.postsMapper.mapToPostWithUserDto(post);
+    const mappedPost = this.postsMapper.mapToPostWithReactionsDto(post);
 
     return mappedPost;
   }
