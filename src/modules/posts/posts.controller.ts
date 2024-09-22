@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
   Param,
   Post as PostMethod,
   Put,
@@ -23,7 +22,6 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { PostDto } from './dto/post.dto';
-import { POSTS_MAPPER } from '../../core/constants/providers';
 import { PostsMapper } from './posts.mapper';
 import { PostWithUserDto } from './dto/postWithUser.dto';
 import { PostWithReactionsDto } from './dto/postWithReactions.dto';
@@ -33,7 +31,7 @@ import { PostWithReactionsDto } from './dto/postWithReactions.dto';
 export class PostsController {
   constructor(
     private postsService: PostsService,
-    @Inject(POSTS_MAPPER) private postsMapper: PostsMapper,
+    private postsMapper: PostsMapper,
   ) {}
 
   @ApiBearerAuth()

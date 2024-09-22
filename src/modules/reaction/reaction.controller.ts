@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ReactionService } from './reaction.service';
 import { CreateReactionDto } from './dto/createReaction.dto';
 import { ReactionDto } from './dto/reaction.dto';
@@ -11,7 +11,6 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { REACTION_MAPPER } from '../../core/constants/providers';
 import { ReactionMapper } from './reaction.mapper';
 
 @ApiTags('reactions')
@@ -19,7 +18,7 @@ import { ReactionMapper } from './reaction.mapper';
 export class ReactionController {
   constructor(
     private reactionService: ReactionService,
-    @Inject(REACTION_MAPPER) private reactionMapper: ReactionMapper,
+    private reactionMapper: ReactionMapper,
   ) {}
 
   @ApiBearerAuth()

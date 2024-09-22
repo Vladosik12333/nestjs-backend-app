@@ -1,8 +1,5 @@
 import { Reaction } from './reaction.entity';
-import {
-  REACTION_MAPPER,
-  REACTION_REPOSITORY,
-} from '../../core/constants/providers';
+import { REACTION_REPOSITORY } from '../../core/constants/providers';
 import { ReactionMapper } from './reaction.mapper';
 
 export const ReactionProvider = [
@@ -11,7 +8,7 @@ export const ReactionProvider = [
     useValue: Reaction,
   },
   {
-    provide: REACTION_MAPPER,
+    provide: ReactionMapper,
     useClass: ReactionMapper,
   },
 ];

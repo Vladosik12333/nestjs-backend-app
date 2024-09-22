@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Inject,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateUserDto } from '../users/dto/createUser.dto';
@@ -20,14 +13,13 @@ import {
 } from '@nestjs/swagger';
 import { AuthLoginRequestDto } from './dto/authLoginRequest.dto';
 import { AuthMapper } from './auth.mapper';
-import { AUTH_MAPPER } from '../../core/constants/providers';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    @Inject(AUTH_MAPPER) private authMapper: AuthMapper,
+    private authMapper: AuthMapper,
   ) {}
 
   @ApiCreatedResponse({

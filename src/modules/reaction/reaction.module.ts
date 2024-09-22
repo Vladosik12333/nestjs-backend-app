@@ -8,6 +8,6 @@ import { PostsModule } from '../posts/posts.module';
   imports: [PostsModule],
   controllers: [ReactionController],
   providers: [ReactionService, ...ReactionProvider],
-  exports: [ReactionService],
+  exports: [ReactionService, ...ReactionProvider],
 })
 export class ReactionModule {}

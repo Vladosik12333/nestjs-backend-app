@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { USER_MAPPER } from '../../core/constants/providers';
+import { Injectable } from '@nestjs/common';
 import { UserMapper } from '../users/users.mapper';
 import { Post } from './posts.entity';
 import { PostDto } from './dto/post.dto';
@@ -7,7 +6,7 @@ import { PostWithReactionsDto } from './dto/postWithReactions.dto';
 
 @Injectable()
 export class PostsMapper {
-  constructor(@Inject(USER_MAPPER) private userMapper: UserMapper) {}
+  constructor(private userMapper: UserMapper) {}
 
   mapToPostDto(post: Post): PostDto {
     const postDto = new PostDto();
